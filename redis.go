@@ -71,6 +71,10 @@ func (c *redisCache) GetKeys(keyPattern string) ([]string, error) {
 
 // Delete all passed keys
 func (c *redisCache) Delete(keys ...string) error {
+	if len(keys) == 0 {
+		return nil
+	}
+
 	status := c.client.Del(keys...)
 	if status.Err() != nil {
 		return errors.Wrap(status.Err(), "unable to delete keys")
